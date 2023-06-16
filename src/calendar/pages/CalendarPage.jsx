@@ -9,7 +9,7 @@ const events = [{
 
 title: "cumpleaños del jefe",
 note: " hay que comprar el patel ",
-start : "ne day()",
+start : new Date(),
 end: addHours (new Date (),2 ),
 bgcolor: "#fafafa",
 user:{
@@ -39,7 +39,7 @@ const eventStyleGetter = (event, start, end, isSelected) =>{
       events={ events }
       startAccessor="start"
       endAccessor="end"
-      style={{ height: "calc ( 100vh - 80px)" }}
+      style={{ height: "calc( 100vh - 80px)" }}
       messages={ getMessagesES()}
       eventPropGetter={ eventStyleGetter }
 
