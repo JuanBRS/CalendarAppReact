@@ -1,7 +1,7 @@
 import { Calendar } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { addHours } from "date-fns";
-import { CalendarEvents, Navbar } from "../";
+import { CalendarEvents, CalendarModal, Navbar } from "../";
 import { localizer, getMessagesES } from "../../helpers";
 import { useState } from "react";
 
@@ -72,6 +72,8 @@ const [lastView, setlastView] = useState(localStorage.getItem("lastView") || "we
         onSelectEvent={ onSelect}
         onView ={onViwChanged}
       />
+<CalendarModal/>
+
     </>
   );
 };
