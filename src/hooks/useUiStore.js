@@ -22,8 +22,14 @@ const closeDateModal = ()=>{
 
   dispatch( onCloseDateModal())
 
+}
+
+const toggleDateModal =()=>{
 
 
+(isDateModalOpen)
+? openDateModal()
+: closeDateModal();
 }
 return{
 
@@ -31,6 +37,8 @@ return{
 
   openDateModal,
   closeDateModal,
+  toggleDateModal,
+  
 }
 
 
