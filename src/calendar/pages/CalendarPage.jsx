@@ -6,16 +6,15 @@ import { localizer, getMessagesES } from "../../helpers";
 import { useState } from "react";
 import { useUiStore, useCalendarStore } from "../../hooks";
 
-
 export const CalendarPage = () => {
+  const { openDateModal } = useUiStore();
+  const { events, setActiveEvent } = useCalendarStore();
 
-  const {openDateModal} = useUiStore ();
-  const {events}= useCalendarStore();
-
-const [lastView, setlastView] = useState(localStorage.getItem("lastView") || "week")
+  const [lastView, setlastView] = useState(
+    localStorage.getItem("lastView") || "week"
+  );
 
   const eventStyleGetter = (event, start, end, isSelected) => {
-    
     const style = {
       backgroundColor: "#12447CF8",
       borderRadius: "0px",
@@ -24,24 +23,22 @@ const [lastView, setlastView] = useState(localStorage.getItem("lastView") || "we
     };
     return {
       style,
-    }; 
+    };
   };
 
-
-  const onDoubleClick = ( event ) =>{
+  const onDoubleClick = (event) => {
     // console.log({ doubleclick: event});
     openDateModal();
-  }
+  };
 
-  const onSelect = ( event ) =>{
-    console.log({ click: event});
-  }
+  const onSelect = (event) => {
+    setActiveEvent(event);
+  };
 
-
-  const onViwChanged = ( event ) =>{
+  const onViwChanged = (event) => {
     localStorage.setItem("lastView", event);
-    setlastView (event)
-  }
+    setlastView(event);
+  };
 
   return (
     <>
@@ -57,14 +54,13 @@ const [lastView, setlastView] = useState(localStorage.getItem("lastView") || "we
         messages={getMessagesES()}
         eventPropGetter={eventStyleGetter}
         components={{
-          event: CalendarEvents
+          event: CalendarEvents,
         }}
         onDoubleClickEvent={onDoubleClick}
-        onSelectEvent={ onSelect}
-        onView ={onViwChanged}
+        onSelectEvent={onSelect}
+        onView={onViwChanged}
       />
-<CalendarModal/>
-
+      <CalendarModal />
     </>
   );
 };
