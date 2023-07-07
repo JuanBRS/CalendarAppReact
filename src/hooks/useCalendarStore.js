@@ -5,7 +5,7 @@ import { onSetActiveEvent } from "../store/";
 export const useCalendarStore = () => {
 
 const dispatch = useDispatch();
- const { events, activeEevent }= useSelector( state => state.calendar);
+ const { events, activeEvent }= useSelector( state => state.calendar);
 
 const setActiveEvent = (calendarEvent) =>{
 
@@ -13,7 +13,7 @@ dispatch (onSetActiveEvent (calendarEvent))
 
 }
   return {
-activeEevent, 
+activeEvent, 
 events,
 
 setActiveEvent,

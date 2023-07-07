@@ -30,7 +30,7 @@ export const CalendarModal = () => {
   
 const { isDateModalOpen, closeDateModal }= useUiStore();
 
-const {activeEevent} = useCalendarStore();
+const {activeEvent} = useCalendarStore();
 
 const [formSubmitted, setformSubmitted] = useState(false);
 
@@ -53,14 +53,14 @@ return ( formValues.title.length > 0)
 
 
 useEffect(() => {
-  if( activeEevent !== null ){
+  if( activeEvent !== null ){
 
-setformValues({ ...activeEevent });
+setformValues({ ...activeEvent });
 
   }
 
   
-}, [activeEevent])
+}, [activeEvent])
 
 
 const OnImputChange=( {target})=>{
