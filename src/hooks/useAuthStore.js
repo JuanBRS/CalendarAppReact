@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { calendarApi } from "../api";
-import { Onchecking, Onlogin } from "../store";
+import { Onchecking, OnLogin, clearErrorMessage, onLogout } from "../store";
 
 export const useAuthStore = () => {
   const { status, user, errorMessage } = useSelector((state) => state.auth);
@@ -13,9 +13,35 @@ export const useAuthStore = () => {
       const { data } = await calendarApi.post("/auth", { email, password });
       localStorage.setItem("token", data.token);
       localStorage.setItem("token-init-date", new Date().getTime());
-      dispatch(Onlogin({ name: data.name, uid: data.uid }));
+      dispatch(OnLogin({ name: data.name, uid: data.uid }));
     } catch (error) {
-      console.log({ error });
+      dispatch(onLogout("credenciales incorrectas"));
+      setTimeout(() => {
+        dispatch(clearErrorMessage());
+      }, 10);
+    }
+  };
+
+  // starRegister
+
+  const startRegister = async ({ email, password, name }) => {
+    dispatch(Onchecking());
+
+    try {
+      const { data } = await calendarApi.post("/auth/new", {
+        email,
+        password,
+        name,
+      });
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("token-init-date", new Date().getTime());
+
+      dispatch(OnLogin({ name: data.name, uid: data.uid }));
+    } catch (error) {
+      dispatch(onLogout(error.response.data?.msg || "----"));
+      setTimeout(() => {
+        dispatch(clearErrorMessage());
+      }, 10);
     }
   };
 
@@ -27,5 +53,6 @@ export const useAuthStore = () => {
 
     // metodos
     startLogin,
+    startRegister,
   };
 };
