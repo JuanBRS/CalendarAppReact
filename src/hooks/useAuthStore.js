@@ -45,22 +45,22 @@ export const useAuthStore = () => {
     }
   };
 
-  // const checkAuthToken = async () => {
-  //   const token = localStorage.getItem("token");
-  //   if (!token) return dispatch(onLogout());
+  const checkAuthToken = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) return dispatch(onLogout());
 
-  //   try {
-  //     const { data } = await calendarApi.get("auth/renew");
+    try {
+      const { data } = await calendarApi.get("auth/renew");
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("token-init-date", new Date().getTime());
+      console.log(123);
 
-  //     localStorage.setItem("token", data.token);
-  //     localStorage.setItem("token-init-date", new Date().getTime());
-
-  //     dispatch(OnLogin({ name: data.name, uid: data.uid }));
-  //   } catch (error) {
-  //     localStorage.clear();
-  //     dispatch(onLogout());
-  //   }
-  // };
+      dispatch(OnLogin({ name: data.name, uid: data.uid }));
+    } catch (error) {
+      localStorage.clear();
+      dispatch(onLogout());
+    }
+  };
 
   return {
     // propiedades
@@ -69,7 +69,7 @@ export const useAuthStore = () => {
     errorMessage,
 
     // metodos
-    // checkAuthToken,
+    checkAuthToken,
     startLogin,
     startRegister,
   };
