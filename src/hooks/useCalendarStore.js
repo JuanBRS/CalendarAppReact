@@ -8,6 +8,7 @@ import {
 } from "../store/";
 import { calendarApi } from "../api";
 import { convertEventsToDateEvents } from "../helpers";
+import Swal from "sweetalert2";
 
 export const useCalendarStore = () => {
   const dispatch = useDispatch();
@@ -19,15 +20,21 @@ export const useCalendarStore = () => {
   };
 
   const startSavingEvent = async (calendarEvent) => {
-    //TODO: update Event
-    if (calendarEvent._id) {
-      dispatch(onUpdateEvent({ ...calendarEvent }));
-    } else {
+    try {
+      if (calendarEvent.id) {
+        await calendarApi.put(`/events/${calendarEvent.id}`, calendarEvent);
+
+        dispatch(onUpdateEvent({ ...calendarEvent, user }));
+        return;
+      }
       const { data } = await calendarApi.post("/events", calendarEvent);
       console.log({ data });
       dispatch(
         onAddActiveEvent({ ...calendarEvent, id: data.evento.id, user })
       );
+    } catch (error) {
+      console.log(error);
+      Swal.fire("Error al guardar", error.response.data.msg, "error");
     }
   };
 
